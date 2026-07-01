@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>ICRAD 2026 Updates Feed</title>
+  <link>https://www.icrad-conference.org/index.html</link>
+  <description>Latest event notifications, timeline extensions, and announcements for the International Conference on Advanced Dynamics.</description>
+  <language>en-us</language>
+  <atom:link href="https://www.icrad-conference.org/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>Registration is Officially Open</title>
+    <link>https://www.icrad-conference.org/registration_open.html</link>
+    <description>Early registration tiers are available starting today. Secure entry passing discounts before August 20.</description>
+    <pubDate>Wed, 01 Jul 2026 09:00:00 GMT</pubDate>
+    <guid>https://www.icrad-conference.org/registration_open.html</guid>
+  </item>
+</channel>
+</rss>
