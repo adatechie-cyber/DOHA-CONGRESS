@@ -286,10 +286,18 @@
 
   /* ===== QUICK NAVIGATION HUD ===== */
   .path-matrix {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr; /* Optimized for smartphone touch */
+  gap: 12px;
+  margin-top: 32px;
+}
+
+@media (min-width: 576px) {
+  .path-matrix { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+@media (min-width: 992px) {
+  .path-matrix { grid-template-columns: repeat(4, 1fr); }
+}
   }
   .path-btn {
     display: flex;
@@ -461,12 +469,20 @@
     margin-top: 80px;
     background: var(--col-border);
   }
-  .hero-stat {
-    background: var(--col-surface);
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  .hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 grid for compact viewports */
+  gap: 1px;
+  border: 0.5px solid var(--col-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: 48px;
+  background: var(--col-border);
+}
+
+@media (min-width: 768px) {
+  .hero-stats { grid-template-columns: repeat(4, 1fr); } /* 1x4 horizontal layout */
+}
   }
   .hero-stat-val {
     font-family: var(--font-serif);
