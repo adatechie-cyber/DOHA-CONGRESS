@@ -286,19 +286,18 @@
 
   /* ===== QUICK NAVIGATION HUD ===== */
   .path-matrix {
-  display: grid;
-  grid-template-columns: 1fr; /* Optimized for smartphone touch */
-  gap: 12px;
-  margin-top: 32px;
-}
-
-@media (min-width: 576px) {
-  .path-matrix { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-}
-@media (min-width: 992px) {
-  .path-matrix { grid-template-columns: repeat(4, 1fr); }
-}
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-first base stack */
+    gap: 12px;
+    margin-top: 32px;
   }
+  @media (min-width: 576px) {
+    .path-matrix { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (min-width: 992px) {
+    .path-matrix { grid-template-columns: repeat(4, 1fr); }
+  }
+
   .path-btn {
     display: flex;
     flex-direction: column;
@@ -459,31 +458,21 @@
     margin-bottom: 48px;
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  
   .hero-stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2x2 mobile default */
     gap: 1px;
     border: 0.5px solid var(--col-border);
     border-radius: var(--radius-md);
     overflow: hidden;
-    margin-top: 80px;
+    margin-top: 48px;
     background: var(--col-border);
   }
-  .hero-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2x2 grid for compact viewports */
-  gap: 1px;
-  border: 0.5px solid var(--col-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  margin-top: 48px;
-  background: var(--col-border);
-}
-
-@media (min-width: 768px) {
-  .hero-stats { grid-template-columns: repeat(4, 1fr); } /* 1x4 horizontal layout */
-}
+  @media (min-width: 768px) {
+    .hero-stats { grid-template-columns: repeat(4, 1fr); margin-top: 80px; }
   }
+
   .hero-stat-val {
     font-family: var(--font-serif);
     font-size: clamp(1.4rem, 3vw, 2rem);
