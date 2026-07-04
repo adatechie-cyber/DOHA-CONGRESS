@@ -217,42 +217,96 @@
     </div>
 
     <div class="portal-panel">
-      <h2 style="font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; margin-bottom: 32px; color: var(--col-gold);">Registration Portal</h2>
-      
-      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfrjqFWusSThX1n_d_oAZs06P5fDwi09WT523Q_ytiF_i7R9A/formResponse" method="POST">
-        
-        <div class="form-group">
-          <label for="reg-name">Full Scholarly Name</label>
-          <input type="text" id="reg-name" name="entry.1030776735" class="form-control" placeholder="Prof. Dr. Alex Person" required>
-        </div>
-
-        <div class="form-group">
-          <label for="reg-email">Institutional Email Address / Personal Email Address</label>
-          <input type="email" id="reg-email" name="entry.1497259648" class="form-control" placeholder="username@university.edu" required>
-        </div>
-
-        <div class="form-group">
-          <label for="reg-orcid">ORCID iD Reference</label>
-          <input type="text" id="reg-orcid" name="entry.73560667" class="form-control" placeholder="0000-0000-0000-0000" required>
-        </div>
-
-        <div class="form-group">
-          <label for="reg-track">Primary Academic Track</label>
-          <select id="reg-track" name="entry.1017415254" class="form-control" style="background: #141721; cursor: pointer;">
-            <option value="Intellectual Property &amp; Regulatory Frameworks">Intellectual Property &amp; Regulatory Frameworks</option>
-            <option value="Climate Action &amp; Environmental Metrics">Climate Action &amp; Environmental Metrics</option>
-            <option value="Doha Declaration System Analysis">Doha Declaration System Analysis</option>
-          </select>
-        </div>
-
-        <div class="form-group" style="margin-bottom: 32px;">
-          <label for="reg-abstract">Abstract Draft / Project Overview (Optional)</label>
-          <textarea id="reg-abstract" name="entry.1989471569" class="form-control" rows="4" placeholder="Paste your abstract draft here for peer-review queuing..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Process Academic Registration ↗</button>
-      </form>
+  <h2 style="font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; margin-bottom: 32px; color: var(--col-gold);">Registration Portal</h2>
+  
+  <form id="academicRegistrationForm">
+    
+    <div class="form-group">
+      <label for="reg-name">Full Scholarly Name</label>
+      <input type="text" id="reg-name" name="entry.1030776735" class="form-control" placeholder="Prof. Dr. Alex Person" required>
     </div>
+
+    <div class="form-group">
+      <label for="reg-email">Institutional Email Address</label>
+      <input type="email" id="reg-email" name="entry.1497259648" class="form-control" placeholder="username@university.edu" required>
+    </div>
+
+    <div class="form-group">
+      <label for="reg-orcid">ORCID iD Reference</label>
+      <input type="text" id="reg-orcid" name="entry.73560667" class="form-control" placeholder="0000-0000-0000-0000" required>
+    </div>
+
+    <div class="form-group">
+      <label for="reg-track">Primary Academic Track</label>
+      <select id="reg-track" name="entry.1017415254" class="form-control" style="background: #141721; cursor: pointer;">
+        <option value="Intellectual Property &amp; Regulatory Frameworks">Intellectual Property &amp; Regulatory Frameworks</option>
+        <option value="Climate Action &amp; Environmental Metrics">Climate Action &amp; Environmental Metrics</option>
+        <option value="Doha Declaration System Analysis">Doha Declaration System Analysis</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 32px;">
+      <label for="reg-abstract">Abstract Draft / Project Overview (Optional)</label>
+      <textarea id="reg-abstract" name="entry.1989471569" class="form-control" rows="4" placeholder="Paste your abstract draft here for peer-review queuing..."></textarea>
+    </div>
+
+    <button type="submit" id="submitBtn" class="btn btn-primary">Process Academic Registration ↗</button>
+  </form>
+
+  <div id="successMessage" style="display: none; text-align: center; padding: 20px 0;">
+    <span class="badge" style="margin-bottom: 16px;">Transmission Complete</span>
+    <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--col-teal); margin-bottom: 12px;">Credentials Logged</h3>
+    <p style="color: var(--col-text-2); font-size: 0.9rem; max-width: 320px; margin: 0 auto;">
+      Your submission has been queued into the peer-review registry. Metadata verification is processing in the background.
+    </p>
+  </div>
+
+  <script>
+    document.getElementById('academicRegistrationForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Stop the browser from leaving the page
+      
+      const form = this;
+      const submitBtn = document.getElementById('submitBtn');
+      const successMessage = document.getElementById('successMessage');
+      
+      // Visual feedback: disable button during transmission
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Transmitting to Cluster...";
+
+      const formData = new FormData(form);
+      const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfrjqFWusSThX1n_d_oAZs06P5fDwi09WT523Q_ytiF_i7R9A/formResponse";
+
+      // Submit via background fetch using the 'no-cors' mode to bypass cross-origin browser barriers
+      fetch(googleFormUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      })
+      .then(() => {
+        // Smoothly hide the form elements
+        form.style.transition = 'opacity 0.3s ease';
+        form.style.opacity = '0';
+        
+        setTimeout(() => {
+          form.style.display = 'none';
+          // Unveil the dynamic confirmation message
+          successMessage.style.display = 'block';
+          successMessage.style.opacity = '0';
+          setTimeout(() => {
+            successMessage.style.transition = 'opacity 0.5s ease';
+            successMessage.style.opacity = '1';
+          }, 50);
+        }, 300);
+      })
+      .catch(error => {
+        console.error('Submission error:', error);
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Retry Academic Registration ↗";
+        alert('A pipeline connection error occurred. Please verify your connection and try again.');
+      });
+    });
+  </script>
+</div>
 
   </div>
 </main>
